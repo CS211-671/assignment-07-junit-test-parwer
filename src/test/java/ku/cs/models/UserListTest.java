@@ -1,11 +1,21 @@
 package ku.cs.models;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserListTest {
+    UserList userList = new UserList();
+
+    @BeforeEach
+    void init() {
+        userList.addUser("adam", "1234");
+        userList.addUser("dom", "4321");
+        userList.addUser("john", "1234");
+        userList.addUser("rock", "1234");
+    }
 
     @Test
     @DisplayName("User should be found in UserList")
@@ -18,6 +28,11 @@ class UserListTest {
         // String expected = "<one of username>";
         // String actual = user.getUsername();
         // assertEquals(expected, actual);
+
+        assertEquals("adam", userList.findUserByUsername("adam").getUsername());
+        assertEquals("dom", userList.findUserByUsername("dom").getUsername());
+        assertEquals("john", userList.findUserByUsername("john").getUsername());
+        assertEquals("rock", userList.findUserByUsername("rock").getUsername());
     }
 
     @Test
@@ -29,6 +44,11 @@ class UserListTest {
 
         // TODO: assert that user can change password
         // assertTrue(actual);
+
+        assertTrue(userList.changePassword("adam", "1234", "2141"));
+        assertTrue(userList.changePassword("john", "1234", "12345"));
+        assertTrue(userList.changePassword("rock", "1234", "12345678"));
+
     }
 
     @Test
@@ -40,6 +60,10 @@ class UserListTest {
 
         // TODO: assert that User object is found
         // assertEquals(expected, actual);
+
+        assertEquals("adam", userList.login("adam", "1234").getUsername());
+        assertEquals("john", userList.login("john", "1234").getUsername());
+        assertEquals("rock", userList.login("rock", "1234").getUsername());
     }
 
     @Test
@@ -51,6 +75,10 @@ class UserListTest {
 
         // TODO: assert that the method return null
         // assertNull(actual);
+
+        assertNotEquals("adamer", userList.login("adam", "1234").getUsername());
+        assertNotEquals("johasdasn", userList.login("john", "1234").getUsername());
+        assertNotEquals("roqweck", userList.login("rock", "1234").getUsername());
     }
 
 }
